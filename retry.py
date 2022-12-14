@@ -20,8 +20,12 @@ def signup():
         else:
             print("password doesn't match")
     print(f'Hi there {username}, we just need your Key and s-Key')
-    key = input("Key: ")
-    skey = input("s-Key: ")
+    valid  = False
+    while not valid:                    
+        key = input("Key: ")
+        skey = input("s-Key: ")
+        valid  = validkey(key, skey)
+        
 
 
 
