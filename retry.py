@@ -24,7 +24,14 @@ def signup():
     while not valid:                    
         key = input("Key: ")
         skey = input("s-Key: ")
-        valid  = validkey(key, skey)
+        valid  = validate(key, skey)
+    plaintext = key + skey
+    
+    safe_content = encrypt(password, plaintext)
+    write_file(username,password,safe_content)
+
+    print('You are good to go!')
+
         
 
 
@@ -38,10 +45,11 @@ def validate(key,skey):
             )
         account = api.get_account()
         if account.status == 'ACTIVE':
-            veri = True
             print('verified')
+            return True
     except:
         print('Error your Key or Secret Key are wrong')
+        return False
 
 
 
@@ -62,3 +70,12 @@ def decrypt(key,ciphertext):
     cipher = AES.new(key, AES.MODE_CBC, iv)
     plaintext = cipher.decrypt(ciphertext)
     return plaintext
+
+def write_file(username,password,safe_content):
+
+    with open('keys.txt','a') as f:
+        f.write(f'{username}|{password}|{key}|{skey}\n')
+
+
+      
+signup()
