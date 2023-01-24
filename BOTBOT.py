@@ -70,3 +70,6 @@ stream.subscribe_trades(trade_call, 'AAPL')
 stream.subscribe_quotes(quote_call, 'IBM')
 
 stream.run()
+
+#redundant
+
