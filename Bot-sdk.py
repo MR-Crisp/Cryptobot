@@ -25,7 +25,7 @@ def signup():
     while not valid:                    
         key = input("Key: ")
         skey = input("s-Key: ")
-        valid  = validate(key, skey)
+        valid ,account = validate(key, skey)
     #plaintext = key + skey
     #safe_content = encrypt(password, plaintext)
     write_file(username,password,key,skey)
@@ -39,9 +39,9 @@ def signup():
 def validate(key,skey): 
     try:
         trading_client = TradingClient(key, skey)
-
         account = trading_client.get_account()
-        return True
+        
+        return True,account
     except:
         print('Error your Key or Secret Key are wrong')
         return False
@@ -72,6 +72,16 @@ def write_file(username,password,key,skey):
 
     with open('keys.txt','a') as f:
         f.write(f'{username}|{password}|{key}|{skey}\n')      
+
+
+
+def submit_order(account, symbol, qty, side, type, time_in_force):
+        return account.client.submit_order(
+            symbol=symbol,
+            qty=qty,
+            side=side,
+            type=type,
+            time_in_force=time_in_force)
 
 
       
