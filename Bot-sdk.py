@@ -1,11 +1,12 @@
 from Crypto.Cipher import AES #this is acting very wierd might have to replace
 from getpass import getpass
 import time
-from alpaca.trading.client import TradingClient 
+from alpaca.trading.client import TradingClient
+from alpaca.data.requests import CryptoLatestQuoteRequest
+from alpaca.data.historical import CryptoHistoricalDataClient
+from alpaca.trading.enums import OrderSide, TimeInForce
+from alpaca.trading.requests import MarketOrderRequest
 
-
-#      PKMS1S5M1C60839ET2QC 
-#      YaXCd0ItTQUPwFwPcRECyQs71UnuPlqnHhPZFjWR
 
 def login():
 
@@ -25,7 +26,7 @@ def signup():
     while not valid:                    
         key = input("Key: ")
         skey = input("s-Key: ")
-        valid ,account = validate(key, skey)
+        valid = validate(key, skey)
     #plaintext = key + skey
     #safe_content = encrypt(password, plaintext)
     write_file(username,password,key,skey)
@@ -38,10 +39,11 @@ def signup():
 
 def validate(key,skey): 
     try:
-        trading_client = TradingClient(key, skey)
-        account = trading_client.get_account()
-        
-        return True,account
+        acc = TradingClient(key,skey)
+        valid = acc.get_account() 
+        global client
+        client = acc
+        return True
     except:
         print('Error your Key or Secret Key are wrong')
         return False
@@ -75,14 +77,79 @@ def write_file(username,password,key,skey):
 
 
 
-def submit_order(account, symbol, qty, side, type, time_in_force):
-        return account.client.submit_order(
-            symbol=symbol,
-            qty=qty,
-            side=side,
-            type=type,
-            time_in_force=time_in_force)
+def buy_stock(client,symbol,qty):
+    market_order_data = MarketOrderRequest(
+                    symbol=symbol,
+                    qty=qty,
+                    side=OrderSide.BUY,
+                    time_in_force=TimeInForce.DAY
+                    )
+    return client.submit_order(order_data=market_order_data)
+
+def buy_price(client,symbol,funds):
+    current_price = coin_price(symbol)
+    qty = funds/current_price
+    qty = round(qty,3)
+    market_order_data = MarketOrderRequest(
+                    symbol=symbol,
+                    qty=qty,
+                    side=OrderSide.BUY,
+                    time_in_force=TimeInForce.DAY
+                    )
+    return client.submit_order(order_data=market_order_data)
 
 
-      
+def sell_marketprice(client,symbol,qty):
+    market_order_data = MarketOrderRequest(
+                    symbol=symbol,
+                    qty=qty,
+                    side=OrderSide.SELL,
+                    time_in_force=TimeInForce.DAY
+                    )
+    return client.submit_order(order_data=market_order_data)
+
+
+
+def coin_price(symbol):
+    cryptocoin = symbol
+    price_checker = CryptoHistoricalDataClient()
+    request_params = CryptoLatestQuoteRequest(symbol_or_symbols=cryptocoin)
+    latest_quote = price_checker.get_crypto_latest_quote(request_params)
+    latest_price = latest_quote[cryptocoin].ask_price
+    return latest_price
+
+
+
+def details(client):
+    account = client.get_account()
+    answer = input('Account ID, Balance, Portfolio value, Buying power, All of the above')
+
+
+    if answer == 'Account ID':
+        print(f'Account ID:  {account.id}')
+    if answer == 'BAL':
+        print(f'BAL:  {account.cash}')
+    if answer == 'Portfolio Value':
+        print("Portfolio Value:", account.portfolio_value)
+    if answer == 'Buying Power':
+        print("Buying Power:", account.buying_power)
+    if answer == 'All of the above':
+        print("Account ID: ", account.id)
+        print(f'BAL:  {account.cash}')
+        print("Portfolio Value:", account.portfolio_value)
+        print("Buying Power:", account.buying_power)
+        
+
+ 
+#signup()
+
+
+client = 0
+
+
+#key ='PKMS1S5M1C60839ET2QC' 
+#skey='YaXCd0ItTQUPwFwPcRECyQs71UnuPlqnHhPZFjWR'
+
 signup()
+
+
