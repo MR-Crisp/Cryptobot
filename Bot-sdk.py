@@ -7,6 +7,14 @@ from alpaca.data.historical import CryptoHistoricalDataClient
 from alpaca.trading.enums import OrderSide, TimeInForce
 from alpaca.trading.requests import MarketOrderRequest
 
+#these 3 imports are used to figure out the DCA of a symbol:
+from alpaca.data.historical import CryptoHistoricalDataClient
+from alpaca.data.requests import CryptoBarsRequest
+from alpaca.data.timeframe import TimeFrame
+
+#For pretty printing
+from pprint import pprint
+
 
 def login():
 
@@ -140,6 +148,30 @@ def details(client):
         print("Buying Power:", account.buying_power)
         
 
+
+
+def average_symbol_value():
+    # no keys required for crypto data
+    avg_client = CryptoHistoricalDataClient()
+
+    request_params = CryptoBarsRequest(
+                        symbol_or_symbols=["BTC/USD"],
+                        timeframe=TimeFrame.Week,
+                        
+                 )
+
+    bars = avg_client.get_crypto_bars(request_params)
+    pprint(bars)
+
+
+
+def DCA_logic():
+    
+    market_price = coin_price('BTC/USD')
+    inital_buyInPrice = 0
+    target_price = 0
+
+
  
 #signup()
 
@@ -150,6 +182,6 @@ client = 0
 #key ='PKMS1S5M1C60839ET2QC' 
 #skey='YaXCd0ItTQUPwFwPcRECyQs71UnuPlqnHhPZFjWR'
 
-signup()
+#signup()
 
-
+average_symbol_value()
