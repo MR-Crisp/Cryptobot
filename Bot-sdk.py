@@ -22,6 +22,10 @@ def login():
     print("login")
 
 def signup():
+    """
+    Prompts the user to enter a username, password, and Alpaca API Key and Secret Key. 
+    Verifies the keys are valid and writes the user's information to a file.
+    """
     username = input("username: ")
     while True:
         password = getpass("password: ")
@@ -46,7 +50,19 @@ def signup():
 
 
 
-def validate(key,skey): 
+def validate(key,skey):
+    """
+    Attempts to create a TradingClient object using the provided API Key and Secret Key. 
+    Returns True if successful, False otherwise.
+    
+    Args:
+        key (str): Alpaca API Key.
+        skey (str): Alpaca Secret Key.
+    
+    Returns:
+        bool: True if the TradingClient object was successfully created, False otherwise.
+    """
+
     try:
         acc = TradingClient(key,skey)
         valid = acc.get_account() 
@@ -79,7 +95,15 @@ def decrypt(key,ciphertext): #putting this function in the back for now
     return plaintext
 
 def write_file(username,password,key,skey):
-
+    """
+    Writes a user's information to a file in the format "username|password|key|skey".
+    
+    Args:
+        username (str): The user's chosen username.
+        password (str): The user's chosen password.
+        key (str): The user's Alpaca API Key.
+        skey (str): The user's Alpaca Secret Key.
+    """
 
     with open('keys.txt','a') as f:
         f.write(f'{username}|{password}|{key}|{skey}\n')      
@@ -87,6 +111,19 @@ def write_file(username,password,key,skey):
 
 
 def buy_stock(client,symbol,qty):
+    """
+    Places a market order to buy a specified quantity of a given cryptocurrency symbol.
+    
+    Args:
+        client (TradingClient): The Alpaca TradingClient object.
+        symbol (str): The cryptocurrency symbol to buy.
+        qty (float): The quantity of the cryptocurrency to buy.
+    
+    Returns:
+        dict: The response from the Alpaca API containing information about the submitted order.
+    """
+
+
     market_order_data = MarketOrderRequest(
                     symbol=symbol,
                     qty=qty,
@@ -96,6 +133,17 @@ def buy_stock(client,symbol,qty):
     return client.submit_order(order_data=market_order_data)
 
 def buy_price(client,symbol,funds):
+    """
+    Places a market order to buy as much of a given cryptocurrency symbol as possible with a specified amount of funds.
+    
+    Args:
+        client (TradingClient): The Alpaca TradingClient object.
+        symbol (str): The cryptocurrency symbol to buy.
+        funds (float): The amount of funds to use to buy the cryptocurrency.
+    
+    Returns:
+        dict: The response from the Alpaca API containing information about the submitted order.
+    """
     current_price = coin_price(symbol)
     qty = funds/current_price
     qty = round(qty,3)
@@ -109,6 +157,17 @@ def buy_price(client,symbol,funds):
 
 
 def sell_marketprice(client,symbol,qty):
+    """
+    Places a market order to sell a specified quantity of a given cryptocurrency symbol.
+    
+    Args:
+        client (TradingClient): The Alpaca TradingClient object.
+        symbol (str): The cryptocurrency symbol to sell.
+        qty (float): The quantity of the cryptocurrency to sell.
+    
+    Returns:
+        dict: The response from the Alpaca API containing information about the submitted order.
+    """
     market_order_data = MarketOrderRequest(
                     symbol=symbol,
                     qty=qty,
@@ -120,6 +179,15 @@ def sell_marketprice(client,symbol,qty):
 
 
 def coin_price(symbol):
+    """
+    Retrieves the current price of a specified cryptocurrency symbol.
+    
+    Args:
+        symbol (str): The cryptocurrency symbol to retrieve the price for.
+    
+    Returns:
+        float: The current price of the specified cryptocurrency symbol.
+    """
     cryptocoin = symbol
     price_checker = CryptoHistoricalDataClient()
     request_params = CryptoLatestQuoteRequest(symbol_or_symbols=cryptocoin)
@@ -130,6 +198,12 @@ def coin_price(symbol):
 
 
 def details(client):
+     """
+    Prints details about the user's Alpaca account, including account ID, balance, portfolio value, and buying power.
+    
+    Args:
+        client (TradingClient): The Alpaca TradingClient object.
+     """
     account = client.get_account()
     answer = input('Account ID, Balance, Portfolio value, Buying power, All of the above')
 
@@ -150,7 +224,19 @@ def details(client):
         
 
 
-def average_symbol_value(symbol,days):
+def average_symbol_value(symbol:str,days:int)->float:
+    """
+    Retrieves the last `n` days of historical data for a given cryptocurrency symbol and returns the average
+    closing price for that period.
+
+    Args:
+        symbol (str): The symbol of the cryptocurrency to retrieve data for, e.g. 'BTC/USD'.
+        days (int): The number of days you want the average price for.
+
+    Returns:
+        float: The average closing price for the last 30 days of historical data for the specified cryptocurrency.
+    """
+
     client = CryptoHistoricalDataClient()
 
     end = datetime.utcnow()
