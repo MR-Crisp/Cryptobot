@@ -1,11 +1,12 @@
 from Crypto.Cipher import AES #this is acting very wierd might have to replace
 from getpass import getpass
-import time
+from time import sleep
 from alpaca.trading.client import TradingClient
 from alpaca.data.requests import CryptoLatestQuoteRequest
 from alpaca.data.historical import CryptoHistoricalDataClient
 from alpaca.trading.enums import OrderSide, TimeInForce
 from alpaca.trading.requests import MarketOrderRequest
+
 
 #these 4 imports are used to figure out the DCA of a symbol:
 from alpaca.data.historical import CryptoHistoricalDataClient
@@ -21,7 +22,7 @@ def login():
 
     print("login")
 
-def signup():
+def signup()->None:
     """
     Prompts the user to enter a username, password, and Alpaca API Key and Secret Key. 
     Verifies the keys are valid and writes the user's information to a file.
@@ -46,11 +47,8 @@ def signup():
 
     print('You are good to go!')
 
-        
 
-
-
-def validate(key,skey):
+def validate(key: str, skey: str) -> bool:
     """
     Attempts to create a TradingClient object using the provided API Key and Secret Key. 
     Returns True if successful, False otherwise.
@@ -73,8 +71,6 @@ def validate(key,skey):
         print('Error your Key or Secret Key are wrong')
         return False
 
-
-
     
 def encrypt(key,plaintext): #putting this function in the back for now
 
@@ -94,7 +90,8 @@ def decrypt(key,ciphertext): #putting this function in the back for now
     plaintext = cipher.decrypt(ciphertext)
     return plaintext
 
-def write_file(username,password,key,skey):
+def write_file(username: str, password: str, key: str, skey: str) -> None:
+
     """
     Writes a user's information to a file in the format "username|password|key|skey".
     
@@ -109,8 +106,7 @@ def write_file(username,password,key,skey):
         f.write(f'{username}|{password}|{key}|{skey}\n')      
 
 
-
-def buy_stock(client,symbol,qty):
+def buy_stock(client: TradingClient, symbol: str, qty: float) -> dict:
     """
     Places a market order to buy a specified quantity of a given cryptocurrency symbol.
     
@@ -132,7 +128,8 @@ def buy_stock(client,symbol,qty):
                     )
     return client.submit_order(order_data=market_order_data)
 
-def buy_price(client,symbol,funds):
+def buy_price(client: TradingClient, symbol: str, funds: float) -> dict:
+
     """
     Places a market order to buy as much of a given cryptocurrency symbol as possible with a specified amount of funds.
     
@@ -151,12 +148,12 @@ def buy_price(client,symbol,funds):
                     symbol=symbol,
                     qty=qty,
                     side=OrderSide.BUY,
-                    time_in_force=TimeInForce.DAY
+                    time_in_force='gtc'
                     )
-    return client.submit_order(order_data=market_order_data)
+    return client.submit_order(order_data=market_order_data),qty
 
+def sell_marketprice(client: TradingClient, symbol: str, qty: float) -> dict:
 
-def sell_marketprice(client,symbol,qty):
     """
     Places a market order to sell a specified quantity of a given cryptocurrency symbol.
     
@@ -177,8 +174,8 @@ def sell_marketprice(client,symbol,qty):
     return client.submit_order(order_data=market_order_data)
 
 
+def coin_price(symbol: str) -> float:
 
-def coin_price(symbol):
     """
     Retrieves the current price of a specified cryptocurrency symbol.
     
@@ -196,14 +193,14 @@ def coin_price(symbol):
     return latest_price
 
 
-
 def details(client):
-     """
+    """
     Prints details about the user's Alpaca account, including account ID, balance, portfolio value, and buying power.
     
     Args:
         client (TradingClient): The Alpaca TradingClient object.
-     """
+    """
+    
     account = client.get_account()
     answer = input('Account ID, Balance, Portfolio value, Buying power, All of the above')
 
@@ -221,8 +218,6 @@ def details(client):
         print(f'BAL:  {account.cash}')
         print("Portfolio Value:", account.portfolio_value)
         print("Buying Power:", account.buying_power)
-        
-
 
 def average_symbol_value(symbol:str,days:int)->float:
     """
@@ -255,23 +250,60 @@ def average_symbol_value(symbol:str,days:int)->float:
     return avg
 
 
-def DCA_logic():
-    
-    market_price = coin_price('BTC/USD')
-    inital_buyInPrice = 0
-    target_price = 0
+def balance_check(client,spend):
+    account = client.get_account()
+    bal = account.cash
+    available = bal - spend
+    if available >= 0:
+        return True
+    else:
+        return False
 
+
+def DCA_logic(symbol,days,spend):
+    symbol = 'BTC/USD'
+    market_price = coin_price(symbol)
+    average_price = average_symbol_value(symbol,days)
+    not_bought_in = True
+    not_bought_out = True
+    #buy in first(only when market price is 5 percent less than avg price)
+    while not_bought_in:
+        market_price = coin_price(symbol)
+        percent =((market_price - average_price)/average_price)*100
+        if market_price >= average_price:
+            sleep(300)
+        elif  percent <= -5:
+            # Only buy if the market price is at least 5% less than the average price
+            _,qty = buy_price(client,symbol,spend)
+            buy_in_price = market_price
+            not_bought_in = False
+        else:
+            # Wait for some time before checking again
+            sleep(300)
+    #now need to buy out for profit
+    while not_bought_out:
+        market_price = coin_price(symbol)
+        percent =((market_price - buy_in_price)/buy_in_price)*100
+        if buy_in_price > market_price and percent >= 10:
+            sell_marketprice(client,symbol,qty)
+
+        
+
+
+    
 
  
-#signup()
 
 
-client = 0
 
 
-#key ='PKMS1S5M1C60839ET2QC' 
-#skey='YaXCd0ItTQUPwFwPcRECyQs71UnuPlqnHhPZFjWR'
+key ='PKMS1S5M1C60839ET2QC' 
+skey='YaXCd0ItTQUPwFwPcRECyQs71UnuPlqnHhPZFjWR'
 
 #signup()
 
-print(average_symbol_value('BTC/USD',33))
+
+client = TradingClient(key,skey)
+_,qty= buy_price(client,'BTC/USD',20230.80)
+
+pprint(qty)
