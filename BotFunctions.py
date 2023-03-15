@@ -18,6 +18,10 @@ from datetime import datetime, timedelta
 from pprint import pprint
 
 
+BTC = "BTC/USD"
+ETH = "ETH/USD"
+
+
 def login():
 
     print("login")
@@ -252,16 +256,21 @@ def average_symbol_value(symbol:str,days:int)->float:
 
 def balance_check(client,spend):
     account = client.get_account()
-    bal = account.cash
+    bal = float(account.cash)
+    spend = float(spend)
     available = bal - spend
     if available >= 0:
         return True
     else:
         return False
 
+def balance_get(client):
+    account = client.get_account()
+    bal = float(account.cash)
+    return bal
+
 
 def DCA_logic(symbol,days,spend):
-    symbol = 'BTC/USD'
     market_price = coin_price(symbol)
     average_price = average_symbol_value(symbol,days)
     not_bought_in = True
@@ -287,23 +296,24 @@ def DCA_logic(symbol,days,spend):
         if buy_in_price > market_price and percent >= 10:
             sell_marketprice(client,symbol,qty)
 
+    return True
+
         
 
 
     
 
  
+#implement balacnce check into all of the buy methods.
+#sell price  
 
-
-
-
-key ='PKMS1S5M1C60839ET2QC' 
-skey='YaXCd0ItTQUPwFwPcRECyQs71UnuPlqnHhPZFjWR'
+#key ='PKMS1S5M1C60839ET2QC' 
+#skey='YaXCd0ItTQUPwFwPcRECyQs71UnuPlqnHhPZFjWR'
 
 #signup()
 
 
-client = TradingClient(key,skey)
-_,qty= buy_price(client,'BTC/USD',20230.80)
+#client = TradingClient(key,skey)
+#qty = DCA_logic(BTC,30,200000)
 
-pprint(qty)
+#pprint(qty)
