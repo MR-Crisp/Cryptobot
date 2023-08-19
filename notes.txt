@@ -1,14 +1,3 @@
- Here are the attributes available for a Bar object in the alpaca.data.models.bars module:
+need to create a new tab for the overview/ graphs section so that the user can see all of the different profits and losses.
 
-t: The timestamp of the bar, represented as a datetime object.
-o: The opening price of the asset during the time period covered by the bar.
-h: The highest price of the asset during the time period covered by the bar.
-l: The lowest price of the asset during the time period covered by the bar.
-c: The closing price of the asset during the time period covered by the bar.
-v: The volume of the asset traded during the time period covered by the bar.
-Note that these attributes may vary depending on the type of asset being traded (e.g., stocks, cryptocurrencies, forex, etc.). For example, some assets may have additional attributes such as bid price, ask price, or spread.
-
-Also note that the Bar object is a subclass of NamedTuple, which means that its attributes are immutable(cant be changed) and can be accessed using the dot notation.
-
-
-the opening and closing prices of a bar are typically different. The opening price is the first traded price of the asset at the beginning of the time period covered by the bar, while the closing price is the last traded price of the asset at the end of the time period.
+ and then a new tab for the actual live trading.
