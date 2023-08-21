@@ -1,3 +1,29 @@
 need to create a new tab for the overview/ graphs section so that the user can see all of the different profits and losses.
 
  and then a new tab for the actual live trading.
+
+
+
+ logic for the pivots:
+
+  calculate the pivot points from a month before, and then aply it to the month after  
+
+ check if the price is approaching the pivot. wait for it to break the pivot. then set a take profit as well as a stop loss.
+
+
+
+
+
+
+
+
+
+ make a tool for the user to change all the variables
+
+ it still trades but the responsibilty is in the users hands
+
+ it reduces the users workload by 90%
+
+ but still leaves all of the main desicion making in the users hands on what variables to use
+
+ the backtesting methods can be a 'sandbox/ playground' wich allow the user to test thier variables. and then maybe use them in the real version.

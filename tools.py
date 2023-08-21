@@ -4,6 +4,8 @@ import numpy as np
 import datetime as dt
 from pandas_datareader import data as pdr
 import matplotlib.pyplot as plt
+from itertools import islice
+from dateutil.relativedelta import relativedelta
 
 
 class averageCrossover:
@@ -59,81 +61,135 @@ class averageCrossover:
 
 
 class PivotPoints:
+
     def __init__(self):
         self.symbol = 'AAPL'
         yf.pdr_override() # activatees the yahoo workarounds
-
+        self.start = dt.datetime(2020,6,1)
+        self.end = dt.datetime.now() - relativedelta(months=6)
+        self.now = dt.datetime.now()
+        self.df = pdr.get_data_yahoo(self.symbol, self.start, self.end) # creates dataframe of the symbol
+        #self.df['High'].plot(label = "High")
+        self.pivots = []
+        self.dates = [] #may or may not use dates as then it becomes complicated
+        self.counter = 0
+        self.threshold = 1 # ------------------------------------------------------------------------- very important parameter, as it is used to clean the data
+        self.capital = 1000
+        self.amount = 0
+        self.sl = 0.95 #----------------------------------------------------------------
+        self.tp = 1.1#----------------------------------------------------------------
+        self.buyin = 0
+        self.current_price = 0
 
 
     def calcPoints(self):
-        start = dt.datetime(2019,6,1)
-        end = dt.datetime.now()
-        df = pdr.get_data_yahoo(self.symbol, start, end) # creates dataframe of the symbol
-        df['High'].plot(label = "High")
-        pivots = []
-        dates = [] #may or may not use dates as then it becomes complicated
-        counter = 0
         lastPivot = 0
         Range = [0,0,0,0,0,0,0,0,0,0]
         dateRange = [0,0,0,0,0,0,0,0,0,0]
-
-
         #raw pivotpoints and dates
-        for i in df.index:
+        for i in self.df.index:
             currentMax = max(Range,default=0)
-            value = round(df['High'][i],2)
+            value = round(self.df['High'][i],2)
             Range = Range[1:9]
             Range.append(value)
             dateRange = dateRange[1:9]
             dateRange.append(i)
 
             if currentMax == max(Range,default=0):
-                counter+=1
+                self.counter+=1
             else:
-                counter=0
-            if counter ==5:
+                self.counter=0
+            if self.counter ==5:
                 lastPivot = currentMax
                 dateloc = Range.index(lastPivot)
                 lastDate = dateRange[dateloc]
-                pivots.append(lastPivot)
-                dates.append(lastDate)
+                self.pivots.append(lastPivot)
+                self.dates.append(lastDate)
         
 
 
 
         #condensing pivots and flitering out similar and not needed points
-        pivots = self.merge_list(pivots,12 ) #----------------------------------------------------------------note the threshold value for this is veryimportant for figuring out the sensitivity for the points
-        print(str(pivots))
+        self.pivots = self.merge_list(self.pivots,self.threshold ) #----------------------------------------------------------------note the threshold value for this is veryimportant for figuring out the sensitivity for the points
 
-        #visulistaion of data to check the validity of the pivot points
+
+        # #visulistaion of data to check the validity of the pivot points
         
-        for index in range(len(pivots)):
-            #plt.plot_date([dates[index],dates[index]+timeD],[pivots[index],pivots[index]],linestyle = "-",linewidth = 2,marker = ",")
-            plt.axhline(y = pivots[index], color = 'r', linestyle = '-')
+        # for index in range(len(self.pivots)):
+        #     #plt.plot_date([dates[index],dates[index]+timeD],[pivots[index],pivots[index]],linestyle = "-",linewidth = 2,marker = ",")
+        #     plt.axhline(y = self.pivots[index], color = 'r', linestyle = '-')
 
-        plt.show()
+        # plt.show()
 
 
 
-    def merge_list(self,a, thresh):
-        # Get an array with indices off input array, such that each index
-        # represent start of a group of close proximity elements
+    def merge_list(self,a, thresh): # cleans the pivot points (merges close numbers together using vectorisation)
         i = np.flatnonzero(np.r_[True,np.diff(a)>thresh,True])
-
-        # Sum based on those indices. Hence, each group is summed.
         sums = np.add.reduceat(a,i[:-1])
-
-        # Get counts of each group
         counts = np.diff(i)
-
-        # Get average of each group and round those for final o/p
         return np.round(sums/counts.astype(float))
 
 
+    def pivot_logic(self):
+        
+
+        self.simStart = self.now - relativedelta(months=6)        
+        
+
+        self.df = pdr.get_data_yahoo(self.symbol, self.simStart, self.now) # inits new df with the new  relevant dates
 
 
+        init_price = self.df['Close'].iloc[0]   # gets the first line of the df
+
+        bought = False # set the bought variable so that the for loop can be broken later
+
+        for index, row in self.df.iloc[1:].iterrows():   # starts iterating through the df starting from SECOND row (least complex way to do this)
+            self.current_price = row['Close']
+            if init_price < self.current_price and bought == False: # only allows for buy logic to run if the price is going up (compares current price and 1 price before it)
+                if self.compare_pivots(init_price,self.current_price,self.pivots):  # compares pivots to the two prices, to see if a point is in between them
+                    self.amount = int(self.capital / self.current_price)
+                    self.capital -= self.amount * self.current_price
+                    bought = True
+                    self.buyin = self.current_price 
+            
+            
+            #take profit/ stop loss logic
+            if bought:
+                percent = 1 + self.percent_change(self.buyin,self.current_price) # we wamt the percentage, not the change used to calcuate when the TP/SL should activate
+
+                if percent > self.tp: # take profit
+                    self.capital += self.current_price * self.amount
+                    bought = False
+                    self.amount = 0
+                    
+                elif percent < self.sl: # stop loss logic
+                    self.capital += self.current_price * self.amount
+                    bought = False
+                    self.amount = 0
+            init_price = self.current_price
+        
+
+        self.capital += self.current_price * self.amount
+        print(self.capital)
+
+
+
+
+
+
+            
+    def compare_pivots(self,init,current,pivot_list): # compares the WHOLE list to the two prices
+        for item in pivot_list:
+            if init < item < current:
+                return True
+        return False
+
+    def percent_change(self,start_point, end_point):
+        # This is going to be a little long but bare with me here
+        return ((float(end_point) - start_point) / abs(start_point)) 
 
 
 bot = PivotPoints()
-
 bot.calcPoints()
+bot.pivot_logic()
+
