@@ -20,23 +20,25 @@ class MyGUI(QMainWindow):
         self.show()
 
         # configs the date note: this is slighty inefficient but works
-        self.StartDate = self.findChild(QDateEdit, "StartDate")
+        self.StartDate_tab1 = self.findChild(QDateEdit, "StartDate")
         
-        self.EndDate = self.findChild(QDateEdit, "EndDate")
+        self.EndDate_tab1 = self.findChild(QDateEdit, "EndDate")
         
-        self.startdate  = str(self.Dateformat(self.StartDate.date())) # convert to regular
-        self.enddate = str(self.Dateformat(self.EndDate.date())) # convert to regular
+        self.startdate_tab1  = str(self.Dateformat(self.StartDate_tab1.date())) # convert to regular
+        self.enddate_tab1 = str(self.Dateformat(self.EndDate_tab1.date())) # convert to regular
 
         
-        self.StartDate.dateChanged.connect(self.DateChanged)
-        self.EndDate.dateChanged.connect(self.DateChanged)
+        self.StartDate_tab1.dateChanged.connect(self.DateChanged)
+        self.EndDate_tab1.dateChanged.connect(self.DateChanged)
+
+        self.Stock_select_tab1 = self.findChild(QComboBox,"StockcomboBox") 
 
         # does all of the slider configs
-        self.CapitalSlider = self.findChild(QSlider,"horizontalSlider")
-        self.CapitalLabel = self.findChild(QLabel,"CapitalLabel")
-        self.CapitalSlider.setMinimum(1)
-        self.CapitalSlider.setMaximum(10_000)
-        self.CapitalSlider.setSingleStep(100)
+        self.CapitalSlider_tab1 = self.findChild(QSlider,"horizontalSlider")
+        self.CapitalLabel_tab1 = self.findChild(QLabel,"CapitalLabel")
+        self.CapitalSlider_tab1.setMinimum(1)
+        self.CapitalSlider_tab1.setMaximum(10_000)
+        self.CapitalSlider_tab1.setSingleStep(100)
 
         #graph configs ---------------------------------------------------------------- need to be worked out
         
@@ -46,17 +48,31 @@ class MyGUI(QMainWindow):
         # self.figure = plt.figure()
         # self.canvas = FigureCanvas(self.figure)
 
-        self.CapitalSlider.valueChanged.connect(self.calcCapitalSlider)
+        self.CapitalSlider_tab1.valueChanged.connect(self.calcCapitalSlider)
 
         #code for when button is pressed
-        self.pushButton.clicked.connect(lambda: self.MainButtonClick())
+        self.pushButton_tab1 = self.findChild(QPushButton, "pushButton_tab1")
+        self.pushButton_tab1.clicked.connect(lambda: self.MainButtonClick())
         
+
+
+
+
+
+
+        #code for the second tab
+
+        self.StartDate_tab2 = self.findChild(QCalendarWidget, "StartDate")
+        self.EndDate_tab2 = self.findChild(QCalendarWidget, "StartDate")
+
+
+
         
         
 
     def calcCapitalSlider(self):
-        value  = self.CapitalSlider.value()
-        self.CapitalLabel.setText(str(value))
+        value_tab1  = self.CapitalSlider_tab1.value()
+        self.CapitalLabel_tab1.setText(str(value_tab1))
 
 
     def Dateformat(self,unformatted):
@@ -67,16 +83,18 @@ class MyGUI(QMainWindow):
         return formatted
 
     def MainButtonClick(self):
-        bot =  averageCrossover("AAPL",self.startdate,self.enddate,4,20)
+        
+
+        bot =  averageCrossover(self.Stock_select_tab1.currentText(),self.startdate_tab1,self.enddate_tab1,4,20)
         #bot = averageCrossover('AAPL',"2017-01-01","2017-09-30",4,20)
         bot.calc_MA()
-        bot.algo(float(self.CapitalSlider.value()))
-        self.OutputLabel = self.findChild(QLabel,"OutputLabel")
-        self.OutputLabel.setText(str(bot.profit))
+        bot.algo(float(self.CapitalSlider_tab1.value()))
+        self.OutputLabel_tab1 = self.findChild(QLabel,"OutputLabel")
+        self.OutputLabel_tab1.setText(str(bot.profit))
         
     def DateChanged(self):
-        self.startdate  = str(self.Dateformat(self.StartDate.date())) # convert to regular
-        self.enddate = str(self.Dateformat(self.EndDate.date())) # convert to regular
+        self.startdate_tab1  = str(self.Dateformat(self.StartDate_tab1.date())) # convert to regular
+        self.enddate_tab1 = str(self.Dateformat(self.EndDate_tab1.date())) # convert to regular
 
         
 

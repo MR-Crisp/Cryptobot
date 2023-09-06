@@ -62,125 +62,105 @@ class averageCrossover:
 
 class PivotPoints:
 
-    def __init__(self):
+    def visualize_pivots(self):
+        ax = self.df['Close'].plot(label='Close')
+        for pivot in self.pivots:
+            if pivot >= self.df['Close'].min() and pivot <= self.df['Close'].max():
+                plt.axhline(y=pivot, color='r', linestyle='--', label='Pivot')
+        plt.xlabel('Date')
+        plt.ylabel('Price')
+        plt.title('Close Prices and Pivot Points')
+        plt.legend()
+        plt.show()
+
+
+    def __init__(self,start,end,thresh,period,capital,sl,tp):
         self.symbol = 'AAPL'
         yf.pdr_override() # activatees the yahoo workarounds
-        self.start = dt.datetime(2020,6,1)
-        self.end = dt.datetime.now() - relativedelta(months=6)
-        self.now = dt.datetime.now()
-        self.df = pdr.get_data_yahoo(self.symbol, self.start, self.end) # creates dataframe of the symbol
-        #self.df['High'].plot(label = "High")
+        self.start = start
+        self.end = end
+        self.df = pdr.get_data_yahoo(self.symbol, self.start- relativedelta(months=period), self.start) # creates dataframe of the symbol
         self.pivots = []
-        self.dates = [] #may or may not use dates as then it becomes complicated
-        self.counter = 0
-        self.threshold = 1 # ------------------------------------------------------------------------- very important parameter, as it is used to clean the data
-        self.capital = 1000
+        self.threshold = thresh # ------------------------------------------------------------------------- very important parameter, as it is used to clean the data
+        self.capital = capital 
         self.amount = 0
-        self.sl = 0.95 #----------------------------------------------------------------
-        self.tp = 1.1#----------------------------------------------------------------
-        self.buyin = 0
+        self.sl = sl  #----------------------------------------------------------------
+        self.tp = tp#----------------------------------------------------------------
+        self.buy_in = 0
         self.current_price = 0
+      
+    def merge_list(self, a, thresh):
+        merged = []
+        for value in a:
+            if len(merged) == 0 or abs(value - merged[-1]) > thresh:
+                merged.append(value)
+        return merged
+
+
 
 
     def calcPoints(self):
-        lastPivot = 0
-        Range = [0,0,0,0,0,0,0,0,0,0]
-        dateRange = [0,0,0,0,0,0,0,0,0,0]
-        #raw pivotpoints and dates
-        for i in self.df.index:
-            currentMax = max(Range,default=0)
-            value = round(self.df['High'][i],2)
-            Range = Range[1:9]
-            Range.append(value)
-            dateRange = dateRange[1:9]
-            dateRange.append(i)
+        
+        self.pivots = []
 
-            if currentMax == max(Range,default=0):
-                self.counter+=1
-            else:
-                self.counter=0
-            if self.counter ==5:
-                lastPivot = currentMax
-                dateloc = Range.index(lastPivot)
-                lastDate = dateRange[dateloc]
-                self.pivots.append(lastPivot)
-                self.dates.append(lastDate)
+        for i in range(4, len(self.df) - 1):
+            recent_low_prices = self.df['Low'][i-4:i+1]
+            recent_high_prices = self.df['High'][i-4:i+1]
+            currentMin = min(recent_low_prices)
+            currentMax = max(recent_high_prices)
+            
+            if currentMin == self.df['Low'][i] or currentMax == self.df['High'][i]:
+                self.pivots.append(self.df['Close'][i])
+        self.pivots = self.merge_list(self.pivots, self.threshold)
         
 
 
-
-        #condensing pivots and flitering out similar and not needed points
-        self.pivots = self.merge_list(self.pivots,self.threshold ) #----------------------------------------------------------------note the threshold value for this is veryimportant for figuring out the sensitivity for the points
-
-
-        # #visulistaion of data to check the validity of the pivot points
-        
-        # for index in range(len(self.pivots)):
-        #     #plt.plot_date([dates[index],dates[index]+timeD],[pivots[index],pivots[index]],linestyle = "-",linewidth = 2,marker = ",")
-        #     plt.axhline(y = self.pivots[index], color = 'r', linestyle = '-')
-
-        # plt.show()
-
-
-
-    def merge_list(self,a, thresh): # cleans the pivot points (merges close numbers together using vectorisation)
-        i = np.flatnonzero(np.r_[True,np.diff(a)>thresh,True])
-        sums = np.add.reduceat(a,i[:-1])
-        counts = np.diff(i)
-        return np.round(sums/counts.astype(float))
 
 
     def pivot_logic(self):
-        
-
-        self.simStart = self.now - relativedelta(months=6)        
-        
-
-        self.df = pdr.get_data_yahoo(self.symbol, self.simStart, self.now) # inits new df with the new  relevant dates
-
-
+        self.df = pdr.get_data_yahoo(self.symbol, self.start, self.end) # inits new df with the new relevant dates
         init_price = self.df['Close'].iloc[0]   # gets the first line of the df
 
         bought = False # set the bought variable so that the for loop can be broken later
 
         for index, row in self.df.iloc[1:].iterrows():   # starts iterating through the df starting from SECOND row (least complex way to do this)
             self.current_price = row['Close']
-            if init_price < self.current_price and bought == False: # only allows for buy logic to run if the price is going up (compares current price and 1 price before it)
-                if self.compare_pivots(init_price,self.current_price,self.pivots):  # compares pivots to the two prices, to see if a point is in between them
+            if not bought and init_price < self.current_price: # only allows for buy logic to run if the price is going up (compares current price and 1 price before it)
+                buy_condition = self.compare_pivots(init_price, self.current_price, self.pivots)
+                if buy_condition:
                     self.amount = int(self.capital / self.current_price)
                     self.capital -= self.amount * self.current_price
                     bought = True
-                    self.buyin = self.current_price 
-            
-            
-            #take profit/ stop loss logic
+                    self.buy_in = self.current_price 
+
+
+
+            # take profit/stop loss logic
             if bought:
-                percent = 1 + self.percent_change(self.buyin,self.current_price) # we wamt the percentage, not the change used to calcuate when the TP/SL should activate
+                percent = 1 + self.percent_change(self.buy_in, self.current_price) # we want the percentage, not the change used to calculate when the TP/SL should activate
 
                 if percent > self.tp: # take profit
                     self.capital += self.current_price * self.amount
                     bought = False
                     self.amount = 0
-                    
+
                 elif percent < self.sl: # stop loss logic
                     self.capital += self.current_price * self.amount
                     bought = False
                     self.amount = 0
             init_price = self.current_price
-        
 
         self.capital += self.current_price * self.amount
-        print(self.capital)
+        print("Final capital:", self.capital)
 
 
 
 
 
-
-            
-    def compare_pivots(self,init,current,pivot_list): # compares the WHOLE list to the two prices
-        for item in pivot_list:
-            if init < item < current:
+                
+    def compare_pivots(self, init, current, pivot_list): # compares the WHOLE list to the two prices
+        for item in pivot_list: 
+            if init < item < current:  
                 return True
         return False
 
@@ -189,7 +169,8 @@ class PivotPoints:
         return ((float(end_point) - start_point) / abs(start_point)) 
 
 
-bot = PivotPoints()
-bot.calcPoints()
-bot.pivot_logic()
+# bot = PivotPoints(dt.datetime(2017,1,1),dt.datetime(2023,6,1),2,36,1000,0.95,1.1)
+# bot.calcPoints()
+# bot.pivot_logic()
 
+#bot.visualize_pivots()
