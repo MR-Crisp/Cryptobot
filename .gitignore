@@ -1,6 +1,6 @@
 .vscode
 __pycache__
-cryptoenv
+/cryptoenv
 
 # ignore all text files
 *.txt
