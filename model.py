@@ -15,7 +15,8 @@ class MyGUI(QMainWindow):
     def __init__(self):
         # loads the xml file
         super(MyGUI, self).__init__()
-        uic.loadUi("/Users/aamir/programming/crypto/gui.ui", self)
+        #uic.loadUi("/Users/aamir/programming/crypto/gui.ui", self)
+        uic.loadUi("C:/Users/akaam/Documents/Coding/Projects/Crypto bot/gui.ui",self)
         self.show()
 
         # configs the date note: this is slighty inefficient but works
