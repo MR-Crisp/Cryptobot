@@ -236,7 +236,7 @@ background-color:rgb(0, 170, 115);
         <x>20</x>
         <y>20</y>
         <width>1051</width>
-        <height>781</height>
+        <height>877</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0" columnstretch="0,0,0,0,0,0">
@@ -246,28 +246,21 @@ background-color:rgb(0, 170, 115);
        <property name="spacing">
         <number>50</number>
        </property>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="3">
         <widget class="QDial" name="dial_2"/>
        </item>
        <item row="1" column="0">
-        <widget class="QCalendarWidget" name="calendarWidget"/>
+        <widget class="QCalendarWidget" name="tab2_StartDate"/>
        </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>TextLabel</string>
+          <string>Start Date</string>
          </property>
         </widget>
        </item>
        <item row="2" column="3" alignment="Qt::AlignHCenter|Qt::AlignBottom">
-        <widget class="QLabel" name="label_9">
+        <widget class="QLabel" name="tab2_capitalLabel">
          <property name="text">
           <string>Capital</string>
          </property>
@@ -290,14 +283,14 @@ background-color:rgb(0, 170, 115);
         </spacer>
        </item>
        <item row="2" column="2" alignment="Qt::AlignHCenter|Qt::AlignBottom">
-        <widget class="QLabel" name="label_8">
+        <widget class="QLabel" name="tab2_risklevelLabel">
          <property name="text">
           <string>Risk Level</string>
          </property>
         </widget>
        </item>
        <item row="1" column="3">
-        <widget class="QComboBox" name="comboBox_2">
+        <widget class="QComboBox" name="tab2_dropDownBox">
          <item>
           <property name="text">
            <string>AAPL</string>
@@ -321,7 +314,7 @@ background-color:rgb(0, 170, 115);
         </widget>
        </item>
        <item row="6" column="1">
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="tab2_pushbuttonMain">
          <property name="text">
           <string>PushButton</string>
          </property>
@@ -344,7 +337,7 @@ background-color:rgb(0, 170, 115);
         </spacer>
        </item>
        <item row="5" column="4">
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="tab2_checkBox">
          <property name="text">
           <string>Trailing Stop Loss</string>
          </property>
@@ -377,7 +370,7 @@ background-color:rgb(0, 170, 115);
         </spacer>
        </item>
        <item row="3" column="2" alignment="Qt::AlignHCenter">
-        <widget class="QSlider" name="verticalSlider">
+        <widget class="QSlider" name="tab2_riskSlider">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -403,14 +396,14 @@ background-color:rgb(0, 170, 115);
         </spacer>
        </item>
        <item row="3" column="3" colspan="2">
-        <widget class="QSlider" name="horizontalSlider_2">
+        <widget class="QSlider" name="tab2_capitalSlider">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QCalendarWidget" name="calendarWidget_2"/>
+        <widget class="QCalendarWidget" name="tab2_endDate"/>
        </item>
        <item row="5" column="2">
         <widget class="QDial" name="dial">
@@ -434,6 +427,13 @@ background-color:rgb(0, 170, 115);
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>End Date</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
