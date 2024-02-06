@@ -16,7 +16,7 @@ class MyGUI(QMainWindow):
         # loads the xml file
         super(MyGUI, self).__init__()
         #uic.loadUi("/Users/aamir/programming/crypto/gui.ui", self)
-        uic.loadUi("C:/Users/akaam/Documents/Coding/Projects/Crypto bot/gui.ui",self)
+        uic.loadUi("./gui.ui",self)
         self.show()
 
         # configs the date note: this is slighty inefficient but works
@@ -56,12 +56,35 @@ class MyGUI(QMainWindow):
 
         # code for the second tab
 
-        self.StartDate_tab2 = self.findChild(QCalendarWidget, "StartDate")
-        self.EndDate_tab2 = self.findChild(QCalendarWidget, "StartDate")
+        self.StartDate_tab2 = self.findChild(QCalendarWidget, "tab2_StartDate")
+        self.EndDate_tab2 = self.findChild(QCalendarWidget, "tab2_endDate")
+        self.CapitalLabel_tab2 = self.findChild(QLabel, "tab2_capitalLabel")
+        self.CapitalSlider_tab2 = self.findChild(QLabel, "tab2_capitalSlider")
+        self.RiskLevelLabel_tab2 = self.findChild(QLabel,"tab2_risklevelLabel")
+        self.RiskLevelSlider_tab2 = self.findChild(QLabel,"tab2_riskSlider")
+        self.DropDownbox_tab2 = self.findChild(QComboBox,"tab2_dropDownBox")
+        self.PushButtonMain_tab2 = self.findChild(QPushButton,"tab2_pushbuttonMain")
+        self.CheckBonx_tab2 = self.findChild(QCheckBox,"tab2_checkBox")
+        
+
+
+    def calcCapitalSlider_tab2(self):
+            self.value_tab2 = self.CapitalSlider_tab2.value()
+            self.CapitalLabel_tab2.setText(str(self.value_tab2))
+
+    def MainButton_tab2(self):
+        bot = PivotPoints(self.DropDownbox_tab2.currentText(),self.StartDate_tab2,self.EndDate_tab2,self.RiskLevelLabel_tab2,36,self.value_tab2,0.95,1.1)
+        bot.calcPoints()
+        bot.pivot_logic()
+
+
+
 
     def calcCapitalSlider(self):
         value_tab1 = self.CapitalSlider_tab1.value()
         self.CapitalLabel_tab1.setText(str(value_tab1))
+    
+    
 
     def Dateformat(self, unformatted):
         day = str(unformatted.day())
@@ -91,6 +114,10 @@ class MyGUI(QMainWindow):
         self.enddate_tab1 = str(
             self.Dateformat(self.EndDate_tab1.date())
         )  # convert to regular
+
+   
+
+
 
 
 def main():

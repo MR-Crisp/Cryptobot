@@ -1,3 +1,4 @@
+
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -61,19 +62,10 @@ class averageCrossover:
 
 
 class PivotPoints:
-    def visualize_pivots(self):
-        ax = self.df["Close"].plot(label="Close")
-        for pivot in self.pivots:
-            if pivot >= self.df["Close"].min() and pivot <= self.df["Close"].max():
-                plt.axhline(y=pivot, color="r", linestyle="--", label="Pivot")
-        plt.xlabel("Date")
-        plt.ylabel("Price")
-        plt.title("Close Prices and Pivot Points")
-        plt.legend()
-        plt.show()
+    
 
-    def __init__(self, start, end, thresh, period, capital, sl, tp):
-        self.symbol = "AAPL"
+    def __init__(self,symbol, start, end, thresh, period, capital, sl, tp):
+        self.symbol = symbol
         yf.pdr_override()  # activatees the yahoo workarounds
         self.start = start
         self.end = end
@@ -95,6 +87,17 @@ class PivotPoints:
             if len(merged) == 0 or abs(value - merged[-1]) > thresh:
                 merged.append(value)
         return merged
+
+    def visualize_pivots(self):
+        ax = self.df["Close"].plot(label="Close")
+        for pivot in self.pivots:
+            if pivot >= self.df["Close"].min() and pivot <= self.df["Close"].max():
+                plt.axhline(y=pivot, color="r", linestyle="--", label="Pivot")
+        plt.xlabel("Date")
+        plt.ylabel("Price")
+        plt.title("Close Prices and Pivot Points")
+        plt.legend()
+        plt.show()
 
     def calcPoints(self):
         self.pivots = []
@@ -168,8 +171,9 @@ class PivotPoints:
         return (float(end_point) - start_point) / abs(start_point)
 
 
-# bot = PivotPoints(dt.datetime(2017,1,1),dt.datetime(2023,6,1),2,36,1000,0.95,1.1)
+# bot = PivotPoints("AAPL",dt.datetime(2017,1,1),dt.datetime(2023,6,1),2,36,1000,0.95,1.1)
 # bot.calcPoints()
-# bot.pivot_logic()
+#     # bot.pivot_logic()
 
 # bot.visualize_pivots()
+
