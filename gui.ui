@@ -22,7 +22,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1111</width>
+      <width>1181</width>
       <height>881</height>
      </rect>
     </property>
@@ -52,6 +52,26 @@
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
+       <item row="1" column="1">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="11" column="6">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>10,000</string>
+         </property>
+        </widget>
+       </item>
        <item row="11" column="3">
         <widget class="QLabel" name="label_4">
          <property name="text">
@@ -59,14 +79,12 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QDateEdit" name="EndDate"/>
-       </item>
-       <item row="11" column="7">
-        <layout class="QHBoxLayout" name="horizontalLayout"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QDateEdit" name="StartDate"/>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Start Date</string>
+         </property>
+        </widget>
        </item>
        <item row="14" column="2">
         <widget class="QLabel" name="OutputLabel">
@@ -86,6 +104,82 @@
           <number>3</number>
          </property>
         </widget>
+       </item>
+       <item row="9" column="4">
+        <widget class="QLineEdit" name="LongWindow_tab1"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>End Date</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QComboBox" name="StockcomboBox">
+         <item>
+          <property name="text">
+           <string>AAPL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MSFT</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>AMZN</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>AAC</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="5" column="4">
+        <widget class="QLineEdit" name="ShortWindow_tab1"/>
+       </item>
+       <item row="11" column="7">
+        <layout class="QHBoxLayout" name="horizontalLayout"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QDateEdit" name="StartDate"/>
+       </item>
+       <item row="4" column="4">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Short Window</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="4">
+        <widget class="QSlider" name="horizontalSlider">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QDateEdit" name="EndDate"/>
+       </item>
+       <item row="11" column="2">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>200</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item row="15" column="2">
         <widget class="QPushButton" name="pushButton_tab1">
@@ -125,34 +219,6 @@ background-color:rgb(0, 170, 115);
          </property>
         </spacer>
        </item>
-       <item row="11" column="6">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>10,000</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>End Date</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Start Date</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="4">
-        <widget class="QSlider" name="horizontalSlider">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
        <item row="10" column="4">
         <widget class="QLabel" name="CapitalLabel">
          <property name="text">
@@ -163,76 +229,10 @@ background-color:rgb(0, 170, 115);
          </property>
         </widget>
        </item>
-       <item row="1" column="4">
-        <widget class="QComboBox" name="StockcomboBox">
-         <item>
-          <property name="text">
-           <string>AAPL</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>MSFT</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>AMZN</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>AAC</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="11" column="2">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Minimum</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>200</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="0" column="4">
         <widget class="QLabel" name="label_6">
          <property name="text">
           <string>Stock</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="9" column="4">
-        <widget class="QLineEdit" name="LongWindow_tab1"/>
-       </item>
-       <item row="5" column="4">
-        <widget class="QLineEdit" name="ShortWindow_tab1"/>
-       </item>
-       <item row="4" column="4">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Short Window</string>
          </property>
         </widget>
        </item>
@@ -253,33 +253,27 @@ background-color:rgb(0, 170, 115);
      <widget class="QWidget" name="gridLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>991</width>
-        <height>831</height>
+        <x>140</x>
+        <y>30</y>
+        <width>761</width>
+        <height>741</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0" columnstretch="0,0,0,0,0,0">
+      <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0,0,0,0">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <property name="spacing">
         <number>50</number>
        </property>
-       <item row="5" column="1">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="10" column="1">
+        <widget class="QPushButton" name="tab2_pushbuttonMain">
+         <property name="text">
+          <string>PushButton</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
-       <item row="3" column="2" alignment="Qt::AlignHCenter">
+       <item row="4" column="2" alignment="Qt::AlignHCenter">
         <widget class="QSlider" name="tab2_riskSlider">
          <property name="maximum">
           <number>5</number>
@@ -292,70 +286,11 @@ background-color:rgb(0, 170, 115);
          </property>
         </widget>
        </item>
-       <item row="1" column="4">
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>100</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+       <item row="8" column="3">
+        <widget class="QLineEdit" name="StopLoss_tab2"/>
        </item>
-       <item row="3" column="3" colspan="2">
-        <widget class="QSlider" name="tab2_capitalSlider">
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>10000</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="2" alignment="Qt::AlignHCenter|Qt::AlignBottom">
-        <widget class="QLabel" name="tab2_risklevelLabel">
-         <property name="text">
-          <string>Risk Level</string>
-         </property>
-        </widget>
+       <item row="8" column="4">
+        <widget class="QLineEdit" name="TakeProfit_tab2"/>
        </item>
        <item row="1" column="3">
         <widget class="QComboBox" name="tab2_dropDownBox">
@@ -381,31 +316,14 @@ background-color:rgb(0, 170, 115);
          </item>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QPushButton" name="tab2_pushbuttonMain">
+       <item row="5" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>PushButton</string>
+          <string>End Date</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Start Date</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCalendarWidget" name="tab2_StartDate"/>
-       </item>
-       <item row="2" column="3" alignment="Qt::AlignHCenter|Qt::AlignBottom">
-        <widget class="QLabel" name="tab2_capitalLabel">
-         <property name="text">
-          <string>Capital</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="2">
+       <item row="11" column="2">
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -421,13 +339,80 @@ background-color:rgb(0, 170, 115);
          </property>
         </spacer>
        </item>
-       <item row="5" column="3">
-        <widget class="QLineEdit" name="StopLoss_tab2"/>
+       <item row="7" column="3">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Stop Loss</string>
+         </property>
+        </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QCalendarWidget" name="tab2_endDate"/>
+       <item row="9" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="3" column="5">
+       <item row="6" column="0">
+        <widget class="QDateEdit" name="EndDate_tab2"/>
+       </item>
+       <item row="3" column="2" alignment="Qt::AlignHCenter|Qt::AlignBottom">
+        <widget class="QLabel" name="tab2_risklevelLabel">
+         <property name="text">
+          <string>Risk Level</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3" colspan="2">
+        <widget class="QSlider" name="tab2_capitalSlider">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="4">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Take Profit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3" alignment="Qt::AlignHCenter|Qt::AlignBottom">
+        <widget class="QLabel" name="tab2_capitalLabel">
+         <property name="text">
+          <string>Capital</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QDateEdit" name="StartDate_tab2"/>
+       </item>
+       <item row="8" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="5">
         <spacer name="horizontalSpacer_6">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -443,27 +428,42 @@ background-color:rgb(0, 170, 115);
          </property>
         </spacer>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>End Date</string>
+       <item row="1" column="4">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
-        </widget>
-       </item>
-       <item row="5" column="4">
-        <widget class="QLineEdit" name="TakeProfit_tab2"/>
-       </item>
-       <item row="4" column="3">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Stop Loss</string>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>100</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="4" column="4">
-        <widget class="QLabel" name="label_11">
+       <item row="4" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Take Profit</string>
+          <string>Start Date</string>
          </property>
         </widget>
        </item>

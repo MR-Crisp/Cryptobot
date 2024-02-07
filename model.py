@@ -44,21 +44,29 @@ class MyGUI(QMainWindow):
         self.CapitalSlider_tab1.setMaximum(10_000)
         self.CapitalSlider_tab1.setSingleStep(100)
 
-        # graph configs ---------------------------------------------------------------- need to be worked out
-
-        # self.figure = plt.figure()
-        # self.canvas = FigureCanvas(self.figure)
+        self.ShortWindow_tab1 = self.findChild(QLineEdit,"ShortWindow_tab1")
+        self.LongWindow_tab1 = self.findChild(QLineEdit,"LongWindow_tab1")
 
         self.CapitalSlider_tab1.valueChanged.connect(self.calcCapitalSlider)
 
         # code for when button is pressed
         self.pushButton_tab1 = self.findChild(QPushButton, "pushButton_tab1")
-        self.pushButton_tab1.clicked.connect(lambda: self.pushButton_tab1())
+        self.pushButton_tab1.clicked.connect(lambda: self.MainpushButton_tab1())
 
         # code for the second tab
 
-        self.StartDate_tab2 = self.findChild(QCalendarWidget, "tab2_StartDate")
-        self.EndDate_tab2 = self.findChild(QCalendarWidget, "tab2_endDate")
+        self.StartDate_tab2 = self.findChild(QDateEdit, "StartDate_tab2")
+        self.StartDate_tab2 = str(
+            self.Dateformat(self.StartDate_tab2.date())
+        )  # convert to regular
+
+
+        self.EndDate_tab2 = self.findChild(QDateEdit, "EndDate_tab2")
+
+        self.EndDate_tab2 = str(
+            self.Dateformat(self.EndDate_tab2.date())
+        )  # convert to regular
+
         self.CapitalLabel_tab2 = self.findChild(QLabel, "tab2_capitalLabel")
         self.CapitalSlider_tab2 = self.findChild(QSlider, "tab2_capitalSlider")
         self.RiskLevelLabel_tab2 = self.findChild(QLabel,"tab2_risklevelLabel")
@@ -78,7 +86,7 @@ class MyGUI(QMainWindow):
 
         self.RiskLevelSlider_tab2.valueChanged.connect(self.calcRiskSlider_tab2)
         self.CapitalSlider_tab2.valueChanged.connect(self.calcCapitalSlider_tab2)
-        self.PushButtonMain_tab2.clicked.connect(lambda: self.pushButton_tab2())
+        self.PushButtonMain_tab2.clicked.connect(lambda: self.MainpushButton_tab2())
 
 
 
@@ -92,8 +100,8 @@ class MyGUI(QMainWindow):
         self.CapitalLabel_tab2.setText(str(self.value_tab2))
     
 
-    def pushButton_tab2(self):
-        some = PivotPoints(self.DropDownbox_tab2.currentText(),dt.datetime(2017,1,1),dt.datetime(2023,6,1),self.riskvalue_tab2,36,self.value_tab2,float(self.StopLoss_tab2.text()),float(self.TakeProfit_tab2.text()))
+    def MainpushButton_tab2(self):
+        some = PivotPoints(self.DropDownbox_tab2.currentText(),self.StartDate_tab2,self.EndDate_tab2,self.riskvalue_tab2,36,self.value_tab2,float(self.StopLoss_tab2.text()),float(self.TakeProfit_tab2.text()))
         some.calcPoints()
         some.pivot_logic()
         print("some")
@@ -115,13 +123,13 @@ class MyGUI(QMainWindow):
     
 
 
-    def pushButton_tab1(self):
+    def MainpushButton_tab1(self):
         bot = averageCrossover(
             self.Stock_select_tab1.currentText(),
             self.startdate_tab1,
             self.enddate_tab1,
-            4,
-            20,
+            int(self.ShortWindow_tab1.text()),
+            int(self.LongWindow_tab1.text()),
         )
         # bot = averageCrossover('AAPL',"2017-01-01","2017-09-30",4,20)
         bot.calc_MA()

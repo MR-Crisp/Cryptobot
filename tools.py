@@ -1,4 +1,3 @@
-
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -70,7 +69,7 @@ class PivotPoints:
         self.start = start
         self.end = end
         self.df = pdr.get_data_yahoo(
-            self.symbol, self.start - relativedelta(months=period), self.start
+            self.symbol, self.formatDate(self.start) - relativedelta(months=period), self.formatDate(self.start)
         )  # creates dataframe of the symbol
         self.pivots = []
         self.threshold = thresh  # ------------------------------------------------------------------------- very important parameter, as it is used to clean the data
@@ -167,13 +166,13 @@ class PivotPoints:
         return False
 
     def percent_change(self, start_point, end_point):
-        # This is going to be a little long but bare with me here
         return (float(end_point) - start_point) / abs(start_point)
 
-
+    def formatDate(self,unformatted):
+        return dt.datetime.strptime(unformatted, "%Y%m%d").date()
 # bot = PivotPoints("AAPL",dt.datetime(2017,1,1),dt.datetime(2023,6,1),2,36,1000,0.95,1.1)
 # bot.calcPoints()
-#     # bot.pivot_logic()
+# bot.pivot_logic()
 
 # bot.visualize_pivots()
 
