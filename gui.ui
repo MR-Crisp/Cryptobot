@@ -52,20 +52,42 @@
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="1">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="11" column="3">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>0</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
-       <item row="13" column="2">
+       <item row="5" column="0">
+        <widget class="QDateEdit" name="EndDate"/>
+       </item>
+       <item row="11" column="7">
+        <layout class="QHBoxLayout" name="horizontalLayout"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QDateEdit" name="StartDate"/>
+       </item>
+       <item row="14" column="2">
+        <widget class="QLabel" name="OutputLabel">
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>OUTPUT</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+         <property name="indent">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="2">
         <widget class="QPushButton" name="pushButton_tab1">
          <property name="styleSheet">
           <string notr="true">QPushButton{
@@ -90,26 +112,7 @@ background-color:rgb(0, 170, 115);
          </property>
         </widget>
        </item>
-       <item row="12" column="2">
-        <widget class="QLabel" name="OutputLabel">
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>OUTPUT</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::AutoText</enum>
-         </property>
-         <property name="scaledContents">
-          <bool>false</bool>
-         </property>
-         <property name="indent">
-          <number>3</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2">
+       <item row="7" column="2">
         <spacer name="horizontalSpacer_4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -122,20 +125,17 @@ background-color:rgb(0, 170, 115);
          </property>
         </spacer>
        </item>
-       <item row="1" column="0">
-        <widget class="QDateEdit" name="StartDate"/>
+       <item row="11" column="6">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>10,000</string>
+         </property>
+        </widget>
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>End Date</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="6">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>10,000</string>
          </property>
         </widget>
        </item>
@@ -146,23 +146,20 @@ background-color:rgb(0, 170, 115);
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QDateEdit" name="EndDate"/>
-       </item>
-       <item row="9" column="7">
-        <layout class="QHBoxLayout" name="horizontalLayout"/>
-       </item>
-       <item row="9" column="3">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>0</string>
+       <item row="11" column="4">
+        <widget class="QSlider" name="horizontalSlider">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
-        <widget class="QLabel" name="label_6">
+       <item row="10" column="4">
+        <widget class="QLabel" name="CapitalLabel">
          <property name="text">
-          <string>Stock</string>
+          <string>Capital</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -190,14 +187,7 @@ background-color:rgb(0, 170, 115);
          </item>
         </widget>
        </item>
-       <item row="9" column="4">
-        <widget class="QSlider" name="horizontalSlider">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="2">
+       <item row="11" column="2">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -213,13 +203,43 @@ background-color:rgb(0, 170, 115);
          </property>
         </spacer>
        </item>
-       <item row="8" column="4">
-        <widget class="QLabel" name="CapitalLabel">
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>Capital</string>
+          <string>Stock</string>
          </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="9" column="4">
+        <widget class="QLineEdit" name="LongWindow_tab1"/>
+       </item>
+       <item row="5" column="4">
+        <widget class="QLineEdit" name="ShortWindow_tab1"/>
+       </item>
+       <item row="4" column="4">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Short Window</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="4">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Long Window</string>
          </property>
         </widget>
        </item>
@@ -235,39 +255,45 @@ background-color:rgb(0, 170, 115);
        <rect>
         <x>20</x>
         <y>20</y>
-        <width>1051</width>
-        <height>877</height>
+        <width>991</width>
+        <height>831</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0" columnstretch="0,0,0,0,0,0">
+      <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0" columnstretch="0,0,0,0,0,0">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <property name="spacing">
         <number>50</number>
        </property>
-       <item row="5" column="3">
-        <widget class="QDial" name="dial_2"/>
+       <item row="5" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="1" column="0">
-        <widget class="QCalendarWidget" name="tab2_StartDate"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Start Date</string>
+       <item row="3" column="2" alignment="Qt::AlignHCenter">
+        <widget class="QSlider" name="tab2_riskSlider">
+         <property name="maximum">
+          <number>5</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="2" column="3" alignment="Qt::AlignHCenter|Qt::AlignBottom">
-        <widget class="QLabel" name="tab2_capitalLabel">
-         <property name="text">
-          <string>Capital</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="2">
-        <spacer name="horizontalSpacer_2">
+       <item row="1" column="4">
+        <spacer name="horizontalSpacer_5">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -278,6 +304,48 @@ background-color:rgb(0, 170, 115);
           <size>
            <width>100</width>
            <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="3" colspan="2">
+        <widget class="QSlider" name="tab2_capitalSlider">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
           </size>
          </property>
         </spacer>
@@ -313,15 +381,32 @@ background-color:rgb(0, 170, 115);
          </item>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="7" column="1">
         <widget class="QPushButton" name="tab2_pushbuttonMain">
          <property name="text">
           <string>PushButton</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="4">
-        <spacer name="horizontalSpacer_5">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Start Date</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCalendarWidget" name="tab2_StartDate"/>
+       </item>
+       <item row="2" column="3" alignment="Qt::AlignHCenter|Qt::AlignBottom">
+        <widget class="QLabel" name="tab2_capitalLabel">
+         <property name="text">
+          <string>Capital</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="2">
+        <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -336,81 +421,11 @@ background-color:rgb(0, 170, 115);
          </property>
         </spacer>
        </item>
-       <item row="5" column="4">
-        <widget class="QCheckBox" name="tab2_checkBox">
-         <property name="text">
-          <string>Trailing Stop Loss</string>
-         </property>
-        </widget>
+       <item row="5" column="3">
+        <widget class="QLineEdit" name="StopLoss_tab2"/>
        </item>
-       <item row="5" column="1">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="4" column="1">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="2" alignment="Qt::AlignHCenter">
-        <widget class="QSlider" name="tab2_riskSlider">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="3" colspan="2">
-        <widget class="QSlider" name="tab2_capitalSlider">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QCalendarWidget" name="tab2_endDate"/>
-       </item>
-       <item row="5" column="2">
-        <widget class="QDial" name="dial">
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
        </item>
        <item row="3" column="5">
         <spacer name="horizontalSpacer_6">
@@ -432,6 +447,23 @@ background-color:rgb(0, 170, 115);
         <widget class="QLabel" name="label">
          <property name="text">
           <string>End Date</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="4">
+        <widget class="QLineEdit" name="TakeProfit_tab2"/>
+       </item>
+       <item row="4" column="3">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Stop Loss</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="4">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Take Profit</string>
          </property>
         </widget>
        </item>

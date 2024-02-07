@@ -9,6 +9,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from tools import *
+import datetime as dt
 
 
 class MyGUI(QMainWindow):
@@ -52,38 +53,57 @@ class MyGUI(QMainWindow):
 
         # code for when button is pressed
         self.pushButton_tab1 = self.findChild(QPushButton, "pushButton_tab1")
-        self.pushButton_tab1.clicked.connect(lambda: self.MainButtonClick())
+        self.pushButton_tab1.clicked.connect(lambda: self.pushButton_tab1())
 
         # code for the second tab
 
         self.StartDate_tab2 = self.findChild(QCalendarWidget, "tab2_StartDate")
         self.EndDate_tab2 = self.findChild(QCalendarWidget, "tab2_endDate")
         self.CapitalLabel_tab2 = self.findChild(QLabel, "tab2_capitalLabel")
-        self.CapitalSlider_tab2 = self.findChild(QLabel, "tab2_capitalSlider")
+        self.CapitalSlider_tab2 = self.findChild(QSlider, "tab2_capitalSlider")
         self.RiskLevelLabel_tab2 = self.findChild(QLabel,"tab2_risklevelLabel")
-        self.RiskLevelSlider_tab2 = self.findChild(QLabel,"tab2_riskSlider")
+        self.RiskLevelSlider_tab2 = self.findChild(QSlider,"tab2_riskSlider")
         self.DropDownbox_tab2 = self.findChild(QComboBox,"tab2_dropDownBox")
         self.PushButtonMain_tab2 = self.findChild(QPushButton,"tab2_pushbuttonMain")
         self.CheckBonx_tab2 = self.findChild(QCheckBox,"tab2_checkBox")
-        
+        self.StopLoss_tab2 = self.findChild(QLineEdit,"StopLoss_tab2")
+        self.TakeProfit_tab2 = self.findChild(QLineEdit,"TakeProfit_tab2")
+
+        self.CapitalSlider_tab2.setMinimum(1)
+        self.CapitalSlider_tab2.setMaximum(10_000)
+        self.CapitalSlider_tab2.setSingleStep(100)
+        self.RiskLevelSlider_tab2.setMinimum(1)
+        self.RiskLevelSlider_tab2.setMaximum(5)
+        self.RiskLevelSlider_tab2.setSingleStep(1)
+
+        self.RiskLevelSlider_tab2.valueChanged.connect(self.calcRiskSlider_tab2)
+        self.CapitalSlider_tab2.valueChanged.connect(self.calcCapitalSlider_tab2)
+        self.PushButtonMain_tab2.clicked.connect(lambda: self.pushButton_tab2())
+
+
+
+    def calcRiskSlider_tab2(self):
+        self.riskvalue_tab2 = self.RiskLevelSlider_tab2.value()
+        self.RiskLevelLabel_tab2.setText(str(self.riskvalue_tab2))
 
 
     def calcCapitalSlider_tab2(self):
-            self.value_tab2 = self.CapitalSlider_tab2.value()
-            self.CapitalLabel_tab2.setText(str(self.value_tab2))
+        self.value_tab2 = self.CapitalSlider_tab2.value()
+        self.CapitalLabel_tab2.setText(str(self.value_tab2))
+    
 
-    def MainButton_tab2(self):
-        bot = PivotPoints(self.DropDownbox_tab2.currentText(),self.StartDate_tab2,self.EndDate_tab2,self.RiskLevelLabel_tab2,36,self.value_tab2,0.95,1.1)
-        bot.calcPoints()
-        bot.pivot_logic()
-
+    def pushButton_tab2(self):
+        some = PivotPoints(self.DropDownbox_tab2.currentText(),dt.datetime(2017,1,1),dt.datetime(2023,6,1),self.riskvalue_tab2,36,self.value_tab2,float(self.StopLoss_tab2.text()),float(self.TakeProfit_tab2.text()))
+        some.calcPoints()
+        some.pivot_logic()
+        print("some")
 
 
 
     def calcCapitalSlider(self):
         value_tab1 = self.CapitalSlider_tab1.value()
         self.CapitalLabel_tab1.setText(str(value_tab1))
-    
+
     
 
     def Dateformat(self, unformatted):
@@ -92,8 +112,10 @@ class MyGUI(QMainWindow):
         year = str(unformatted.year())
         formatted = year + "-" + month + "-" + day
         return formatted
+    
 
-    def MainButtonClick(self):
+
+    def pushButton_tab1(self):
         bot = averageCrossover(
             self.Stock_select_tab1.currentText(),
             self.startdate_tab1,
@@ -127,6 +149,7 @@ def main():
 
 
 if __name__ == "__main__":
+    print("hi")
     main()
 
 
