@@ -169,10 +169,16 @@ class PivotPoints:
         return (float(end_point) - start_point) / abs(start_point)
 
     def formatDate(self,unformatted):
-        return dt.datetime.strptime(unformatted, "%Y%m%d").date()
-# bot = PivotPoints("AAPL",dt.datetime(2017,1,1),dt.datetime(2023,6,1),2,36,1000,0.95,1.1)
+        unformatted=unformatted.split('-')
+        print(unformatted)
+        return dt.datetime(int(unformatted[0]), int(unformatted[1]), int(unformatted[2]))
+
+
+
+
+# bot = PivotPoints("AAPL","2017-10-15","2022-10-13",2,36,1000,0.95,1.1)
 # bot.calcPoints()
 # bot.pivot_logic()
 
-# bot.visualize_pivots()
+#bot.visualize_pivots()
 

@@ -56,16 +56,13 @@ class MyGUI(QMainWindow):
         # code for the second tab
 
         self.StartDate_tab2 = self.findChild(QDateEdit, "StartDate_tab2")
-        self.StartDate_tab2 = str(
-            self.Dateformat(self.StartDate_tab2.date())
-        )  # convert to regular
+        self.StartDate_tab2.dateChanged.connect(self.DateChanged_tab2)
+
+       
 
 
         self.EndDate_tab2 = self.findChild(QDateEdit, "EndDate_tab2")
-
-        self.EndDate_tab2 = str(
-            self.Dateformat(self.EndDate_tab2.date())
-        )  # convert to regular
+        self.EndDate_tab2.dateChanged.connect(self.DateChanged_tab2)
 
         self.CapitalLabel_tab2 = self.findChild(QLabel, "tab2_capitalLabel")
         self.CapitalSlider_tab2 = self.findChild(QSlider, "tab2_capitalSlider")
@@ -99,9 +96,8 @@ class MyGUI(QMainWindow):
         self.value_tab2 = self.CapitalSlider_tab2.value()
         self.CapitalLabel_tab2.setText(str(self.value_tab2))
     
-
     def MainpushButton_tab2(self):
-        some = PivotPoints(self.DropDownbox_tab2.currentText(),self.StartDate_tab2,self.EndDate_tab2,self.riskvalue_tab2,36,self.value_tab2,float(self.StopLoss_tab2.text()),float(self.TakeProfit_tab2.text()))
+        some = PivotPoints(self.DropDownbox_tab2.currentText(),str(self.Dateformat(self.StartDate_tab2.date())),str(self.Dateformat(self.EndDate_tab2.date())),self.riskvalue_tab2,36,self.value_tab2,float(self.StopLoss_tab2.text()),float(self.TakeProfit_tab2.text()))
         some.calcPoints()
         some.pivot_logic()
         print("some")
@@ -119,6 +115,7 @@ class MyGUI(QMainWindow):
         month = str(unformatted.month())
         year = str(unformatted.year())
         formatted = year + "-" + month + "-" + day
+        print(formatted)
         return formatted
     
 
@@ -146,7 +143,11 @@ class MyGUI(QMainWindow):
         )  # convert to regular
 
    
+    def DateChanged_tab2(self):
+        self.EndDate_tab2 = self.EndDate_tab2
 
+        self.StartDate_tab2 =self.StartDate_tab2
+        
 
 
 
