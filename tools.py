@@ -83,9 +83,11 @@ class PivotPoints:
     def merge_list(self, a, thresh):
         merged = []
         for value in a:
-            if len(merged) == 0 or abs(value - merged[-1]) > thresh:
+            if not merged or abs(value - merged[-1]) > thresh:
                 merged.append(value)
         return merged
+
+
 
     def visualize_pivots(self):
         ax = self.df["Close"].plot(label="Close")
